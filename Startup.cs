@@ -1,5 +1,9 @@
+using BibliotekaMVCApp.Models.Book;
 using BibliotekaMVCApp.Models.Db;
+using BibliotekaMVCApp.Models.Post;
 using BibliotekaMVCApp.Models.User;
+using BibliotekaMVCApp.Models.Tag;
+using BibliotekaMVCApp.Models.Category;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,10 +30,9 @@ namespace BibliotekaMVCApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddControllersWithViews();
             services.AddDefaultIdentity<UserEntity>(options =>
             {
                 options.Password.RequireUppercase = false;
@@ -38,6 +41,10 @@ namespace BibliotekaMVCApp
             }
             ).AddEntityFrameworkStores<AppDbContext>();
 
+            services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddSession();
             services.AddRazorPages();
             services.AddHttpContextAccessor();

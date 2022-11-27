@@ -1,4 +1,8 @@
 ﻿using BibliotekaMVCApp.Models;
+using BibliotekaMVCApp.Models.Post;
+using BibliotekaMVCApp.Models.User;
+using BibliotekaMVCApp.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -11,21 +15,21 @@ namespace BibliotekaMVCApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IPostRepository postRepository;
+        private readonly UserManager<UserEntity> userManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IPostRepository postRepository, UserManager<UserEntity> userManager)
         {
-            _logger = logger;
+            this.postRepository = postRepository;
+            this.userManager = userManager;
         }
 
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+            return View(new PostsViewModel
+            {
+                Posts = postRepository.GetAllPosts()
+            });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

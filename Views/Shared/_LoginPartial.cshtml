@@ -1,10 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using BibliotekaMVCApp.Models
+@using BibliotekaMVCApp.Models.User
 
 @inject SignInManager<UserEntity> SignInManager
 @inject UserManager<UserEntity> UserManager
 
-<ul class="navbar-nav">
+<ul class="navbar-nav ml-auto">
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
