@@ -42,6 +42,7 @@ namespace BibliotekaMVCApp.Models.Book
         [Required(ErrorMessage = "Należy podać kategorię książki")]
         public Guid CategoryId { get; set; }
         [ForeignKey("CategoryId")]
+        [Display(Name = "Kategoria")]
         public CategoryEntity Category { get; set; }
         public List<TagEntity> Tags { get; set; }
         public List<FileEntity> Files { get; set; }
