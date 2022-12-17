@@ -3,6 +3,7 @@
     public enum Status
     {
         InStock,
-        Borrowed
+        Borrowed,
+        OutOfStock
     }
 }

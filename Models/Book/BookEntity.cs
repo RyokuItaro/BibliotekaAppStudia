@@ -16,12 +16,30 @@ namespace BibliotekaMVCApp.Models.Book
     {
         [Key]
         public Guid BookId { get; set; }
+        [Display(Name = "ISBN")]
+        [Required(ErrorMessage = "Należy podać numer ISBN")]
+        [RegularExpression(@" ([0 - 9][0 - 9][0 - 9][0 - 9]) ([0 - 9][0 - 9][0 - 9][0 - 9]) ([0 - 9][0 - 9][0 - 9][0 - 9]) ([0 - 9][0 - 9][0 - 9][0 - 9])")]
+        [StringLength(13)]
         public string Isbn { get; set; }
+        [Display(Name = "Tytuł")]
+        [Required(ErrorMessage = "Należy podać tytuł książki")]
+        [StringLength(50)]
         public string Title { get; set; }
+        [Display(Name = "Ilość dostępnych książek w bibliotece")]
+        [Required(ErrorMessage = "Nalezy podać prawidłową ilość książek do dodania")]
+        [Range(0, int.MaxValue, ErrorMessage = "Ilość książek nie może być ujemna")]
         public int BookCount { get; set; }
         public Status Status { get; set; }
+        [Display(Name = "Ilość stron")]
+        [Required(ErrorMessage = "Nalezy podać prawidłową ilość stron")]
+        [Range(1, int.MaxValue, ErrorMessage = "Ilość stron nie może być mniejsza niż 1")]
         public int PageCount { get; set; }
+        [Display(Name = "Imię i nazwisko autora")]
+        [Required(ErrorMessage = "Należy podać imię i nazwisko autora")]
+        [StringLength(50)]
         public string AuthorFullname { get; set; }
+        [Display(Name = "Kategoria")]
+        [Required(ErrorMessage = "Należy podać kategorię książki")]
         public Guid CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public CategoryEntity Category { get; set; }
