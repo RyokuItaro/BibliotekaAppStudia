@@ -127,18 +127,6 @@ namespace BibliotekaMVCApp.Models.Db
                 Content = "Sed feugiat cursus volutpat. Sed et sollicitudin felis. In ut nisl eu elit maximus interdum. Fusce laoreet vitae diam sed viverra. Duis laoreet, lacus at facilisis venenatis, urna mauris egestas dolor, id consectetur ante eros id diam. Praesent varius non nibh ut egestas. Vivamus pulvinar nisi id diam aliquet lobortis. Duis ornare ligula pulvinar pharetra sollicitudin. Quisque ut sapien nec leo auctor sollicitudin. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In efficitur tortor id odio fringilla, a egestas erat ultrices. Vestibulum gravida neque congue blandit viverra. Proin eget leo lectus. Etiam sem sem, porta rutrum dolor id, rutrum semper mauris. Integer sed fringilla turpis. Duis cursus sit amet risus ac aliquet.",
                 CreatedOn = DateTime.Now
             });
-
-            //seed books
-            builder.Entity<BookEntity>().HasData(new BookEntity
-            {
-                BookId = Guid.NewGuid(),
-                Isbn = "978-83-7578-065-9",
-                Title = "Wiedźmin Krew elfów",
-                BookCount = 2,
-                Status = Book.Status.InStock,
-                PageCount = 340,
-                AuthorFullname = "Andrzej Sapkowski"
-            });
         }
     }
 }

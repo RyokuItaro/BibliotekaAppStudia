@@ -16,16 +16,19 @@
                 <p>Tytuł</p>
             </th>
             <th>
-                <p>Ilość</p>
-            </th>
-            <th>
-                <p>Status</p>
-            </th>
-            <th>
                 <p>Autor</p>
             </th>
             <th>
                 <p>Kategoria</p>
+            </th>
+            <th>
+                <p>Ilość</p>
+            </th>
+            <th>
+                <p>Data publikacji</p>
+            </th>
+            <th>
+                <p>Status</p>
             </th>
             <th></th>
         </tr>
@@ -37,16 +40,19 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BookCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.AuthorFullname)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Category.CategoryId)
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PublishDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.BookId">Edytuj</a> |

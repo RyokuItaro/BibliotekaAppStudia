@@ -48,7 +48,7 @@ namespace BibliotekaMVCApp.Controllers
         // GET: Book/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId");
+            ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
             return View();
         }
 
@@ -66,7 +66,7 @@ namespace BibliotekaMVCApp.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", bookEntity.CategoryId);
+            ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
             return View(bookEntity);
         }
 
@@ -83,7 +83,7 @@ namespace BibliotekaMVCApp.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", bookEntity.CategoryId);
+            ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
             return View(bookEntity);
         }
 
@@ -119,7 +119,7 @@ namespace BibliotekaMVCApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "CategoryId", bookEntity.CategoryId);
+            ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
             return View(bookEntity);
         }
 

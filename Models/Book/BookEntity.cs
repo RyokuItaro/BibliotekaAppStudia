@@ -18,7 +18,7 @@ namespace BibliotekaMVCApp.Models.Book
         public Guid BookId { get; set; }
         [Display(Name = "ISBN")]
         [Required(ErrorMessage = "Należy podać numer ISBN")]
-        [RegularExpression(@" ([0 - 9][0 - 9][0 - 9][0 - 9]) ([0 - 9][0 - 9][0 - 9][0 - 9]) ([0 - 9][0 - 9][0 - 9][0 - 9]) ([0 - 9][0 - 9][0 - 9][0 - 9])")]
+        [RegularExpression(@"^\d{13}$", ErrorMessage = "Numer ISBN powinien składać się z 13 cyfr")]
         [StringLength(13)]
         public string Isbn { get; set; }
         [Display(Name = "Tytuł")]
@@ -47,5 +47,9 @@ namespace BibliotekaMVCApp.Models.Book
         public List<FileEntity> Files { get; set; }
         public Guid QueueId { get; set; }
         public QueueEntity Queue { get; set; }
+        [DataType(DataType.Date)]
+        [Display(Name = "Data publikacji")]
+        [Required(ErrorMessage = "Należy podać datę publikacji książki")]
+        public DateTime PublishDate { get; set; }
     }
 }

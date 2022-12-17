@@ -2,8 +2,8 @@
 {
     public enum Status
     {
-        InStock,
-        Borrowed,
-        OutOfStock
+        Dostępne,
+        Wypożyczone,
+        Niedostępne
     }
 }
