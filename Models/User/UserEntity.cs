@@ -16,7 +16,7 @@ namespace BibliotekaMVCApp.Models.User
         public string VisibleName { get; set; }
         public Role Role { get; set; }
         public Status Status { get; set; }
-        public List<BorrowCartEntity> BorrowCarts { get; set; }
+        public List<BorrowCart.BorrowCart> BorrowCarts { get; set; }
         public List<PostEntity> Posts { get; set; }
         public List<QueueEntity> Queues { get; set; }
         public List<TicketEntity> Tickets { get; set; }

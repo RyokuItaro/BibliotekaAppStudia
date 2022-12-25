@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BibliotekaMVCApp.Models.BorrowCart
+namespace BibliotekaMVCApp.Models.Order
 {
-    public class BorrowCartRepository
+    public interface IOrderRepository
     {
 
     }
