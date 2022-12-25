@@ -4,14 +4,16 @@ using BibliotekaMVCApp.Models.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BibliotekaMVCApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221225215147_RemovedBorrowCartForeignKey")]
+    partial class RemovedBorrowCartForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,8 +69,9 @@ namespace BibliotekaMVCApp.Migrations
 
             modelBuilder.Entity("BibliotekaMVCApp.Models.BorrowCart.BorrowCart", b =>
                 {
-                    b.Property<string>("BorrowCartId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("BorrowCartId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserEntityId")
                         .HasColumnType("nvarchar(450)");
@@ -77,7 +80,7 @@ namespace BibliotekaMVCApp.Migrations
 
                     b.HasIndex("UserEntityId");
 
-                    b.ToTable("BorrowCart");
+                    b.ToTable("BorrowCarts");
                 });
 
             modelBuilder.Entity("BibliotekaMVCApp.Models.BorrowCartItem.BorrowCartItemEntity", b =>
@@ -89,8 +92,8 @@ namespace BibliotekaMVCApp.Migrations
                     b.Property<Guid>("BookId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("BorrowCartId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("BorrowCartId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("BorrowedDate")
                         .HasColumnType("datetime2");
@@ -134,22 +137,22 @@ namespace BibliotekaMVCApp.Migrations
                     b.HasData(
                         new
                         {
-                            CategoryId = new Guid("1729150d-bfa4-4bbc-a31c-956432bb2a8a"),
+                            CategoryId = new Guid("73ee980c-b334-4ff2-aeda-e8126fef8ff4"),
                             Name = "Fantastyka"
                         },
                         new
                         {
-                            CategoryId = new Guid("c25091d3-c0a9-425c-900d-87f638c10c8d"),
+                            CategoryId = new Guid("d6455626-6db3-46e3-8952-90c202a21acb"),
                             Name = "Horror"
                         },
                         new
                         {
-                            CategoryId = new Guid("bf6313eb-d475-4760-9dfa-204e6ecaf994"),
+                            CategoryId = new Guid("bc0f2e92-ad7d-4a3a-b1d8-bd8ff4f56453"),
                             Name = "Sci-Fi"
                         },
                         new
                         {
-                            CategoryId = new Guid("eea3dc6b-2a76-41f0-9f6b-85a0a5a83a26"),
+                            CategoryId = new Guid("92de880c-930c-4176-aa79-1d18da366af3"),
                             Name = "Historyczne"
                         });
                 });
@@ -203,30 +206,30 @@ namespace BibliotekaMVCApp.Migrations
                     b.HasData(
                         new
                         {
-                            PostId = new Guid("37b66ba9-8533-470c-8f1c-1a2e48291956"),
+                            PostId = new Guid("01a2f7ed-883d-4e94-b1b1-737adc726888"),
                             Content = "Sed feugiat cursus volutpat. Sed et sollicitudin felis. In ut nisl eu elit maximus interdum. Fusce laoreet vitae diam sed viverra. Duis laoreet, lacus at facilisis venenatis, urna mauris egestas dolor, id consectetur ante eros id diam. Praesent varius non nibh ut egestas. Vivamus pulvinar nisi id diam aliquet lobortis. Duis ornare ligula pulvinar pharetra sollicitudin. Quisque ut sapien nec leo auctor sollicitudin. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In efficitur tortor id odio fringilla, a egestas erat ultrices. Vestibulum gravida neque congue blandit viverra. Proin eget leo lectus. Etiam sem sem, porta rutrum dolor id, rutrum semper mauris. Integer sed fringilla turpis. Duis cursus sit amet risus ac aliquet.",
-                            CreatedOn = new DateTime(2022, 12, 25, 23, 6, 1, 572, DateTimeKind.Local).AddTicks(5546),
+                            CreatedOn = new DateTime(2022, 12, 25, 22, 51, 46, 615, DateTimeKind.Local).AddTicks(4625),
                             Title = "Lorem ipsum dolor sit amet"
                         },
                         new
                         {
-                            PostId = new Guid("9f14da19-38a4-4f19-982b-42555afdfb28"),
+                            PostId = new Guid("ff8ef36d-298c-4b94-969c-ab678fc1fdbc"),
                             Content = "Sed feugiat cursus volutpat. Sed et sollicitudin felis. In ut nisl eu elit maximus interdum. Fusce laoreet vitae diam sed viverra. Duis laoreet, lacus at facilisis venenatis, urna mauris egestas dolor, id consectetur ante eros id diam. Praesent varius non nibh ut egestas. Vivamus pulvinar nisi id diam aliquet lobortis. Duis ornare ligula pulvinar pharetra sollicitudin. Quisque ut sapien nec leo auctor sollicitudin. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In efficitur tortor id odio fringilla, a egestas erat ultrices. Vestibulum gravida neque congue blandit viverra. Proin eget leo lectus. Etiam sem sem, porta rutrum dolor id, rutrum semper mauris. Integer sed fringilla turpis. Duis cursus sit amet risus ac aliquet.",
-                            CreatedOn = new DateTime(2022, 12, 25, 23, 6, 1, 575, DateTimeKind.Local).AddTicks(237),
+                            CreatedOn = new DateTime(2022, 12, 25, 22, 51, 46, 618, DateTimeKind.Local).AddTicks(1804),
                             Title = "Lorem ipsum dolor sit amet"
                         },
                         new
                         {
-                            PostId = new Guid("63a33c96-668c-42ed-b817-2a6f053b2e31"),
+                            PostId = new Guid("93d924c5-ec56-4cfb-aba4-c4b17904e7ef"),
                             Content = "Sed feugiat cursus volutpat. Sed et sollicitudin felis. In ut nisl eu elit maximus interdum. Fusce laoreet vitae diam sed viverra. Duis laoreet, lacus at facilisis venenatis, urna mauris egestas dolor, id consectetur ante eros id diam. Praesent varius non nibh ut egestas. Vivamus pulvinar nisi id diam aliquet lobortis. Duis ornare ligula pulvinar pharetra sollicitudin. Quisque ut sapien nec leo auctor sollicitudin. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In efficitur tortor id odio fringilla, a egestas erat ultrices. Vestibulum gravida neque congue blandit viverra. Proin eget leo lectus. Etiam sem sem, porta rutrum dolor id, rutrum semper mauris. Integer sed fringilla turpis. Duis cursus sit amet risus ac aliquet.",
-                            CreatedOn = new DateTime(2022, 12, 25, 23, 6, 1, 575, DateTimeKind.Local).AddTicks(285),
+                            CreatedOn = new DateTime(2022, 12, 25, 22, 51, 46, 618, DateTimeKind.Local).AddTicks(1856),
                             Title = "Lorem ipsum dolor sit amet"
                         },
                         new
                         {
-                            PostId = new Guid("a01e2b4a-090c-40c4-926a-ae4af1bc2a0f"),
+                            PostId = new Guid("534a8615-e282-4c3c-8a5a-73b3def1fafe"),
                             Content = "Sed feugiat cursus volutpat. Sed et sollicitudin felis. In ut nisl eu elit maximus interdum. Fusce laoreet vitae diam sed viverra. Duis laoreet, lacus at facilisis venenatis, urna mauris egestas dolor, id consectetur ante eros id diam. Praesent varius non nibh ut egestas. Vivamus pulvinar nisi id diam aliquet lobortis. Duis ornare ligula pulvinar pharetra sollicitudin. Quisque ut sapien nec leo auctor sollicitudin. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In efficitur tortor id odio fringilla, a egestas erat ultrices. Vestibulum gravida neque congue blandit viverra. Proin eget leo lectus. Etiam sem sem, porta rutrum dolor id, rutrum semper mauris. Integer sed fringilla turpis. Duis cursus sit amet risus ac aliquet.",
-                            CreatedOn = new DateTime(2022, 12, 25, 23, 6, 1, 575, DateTimeKind.Local).AddTicks(310),
+                            CreatedOn = new DateTime(2022, 12, 25, 22, 51, 46, 618, DateTimeKind.Local).AddTicks(1880),
                             Title = "Lorem ipsum dolor sit amet"
                         });
                 });
@@ -264,32 +267,32 @@ namespace BibliotekaMVCApp.Migrations
                     b.HasData(
                         new
                         {
-                            TagId = new Guid("f5de8876-e524-4bb4-a572-fcc9e669a3d6"),
+                            TagId = new Guid("b51f8329-68d3-477d-b096-e5fb890bbd34"),
                             Name = "Broń"
                         },
                         new
                         {
-                            TagId = new Guid("217b397f-b1c9-4f09-b34c-ecec8f52f505"),
+                            TagId = new Guid("c9b276b3-5f89-45fe-bb03-fb3bbec647ad"),
                             Name = "Magia"
                         },
                         new
                         {
-                            TagId = new Guid("6c885903-3f4b-4999-ae9a-16f06bf0871f"),
+                            TagId = new Guid("b5a3016b-2877-4c63-9e05-2e87f3631c42"),
                             Name = "Krew"
                         },
                         new
                         {
-                            TagId = new Guid("fd17090a-72ad-43ed-bd11-211d2fc03a62"),
+                            TagId = new Guid("7107b0c7-2a74-40ca-b56f-4b6b08c0a34a"),
                             Name = "Psychologiczne"
                         },
                         new
                         {
-                            TagId = new Guid("b1af9fed-2203-454e-9478-486b5ba245ae"),
+                            TagId = new Guid("5f569973-526d-4089-82dd-ac82f6ff01a2"),
                             Name = "Historia polska"
                         },
                         new
                         {
-                            TagId = new Guid("a96fd315-a708-44f8-b039-8bb9378b84df"),
+                            TagId = new Guid("767d857c-2cf1-4d50-b9fa-487325cdaea7"),
                             Name = "Historia zagraniczna"
                         });
                 });
@@ -594,7 +597,9 @@ namespace BibliotekaMVCApp.Migrations
 
                     b.HasOne("BibliotekaMVCApp.Models.BorrowCart.BorrowCart", null)
                         .WithMany("BorrowCartItems")
-                        .HasForeignKey("BorrowCartId");
+                        .HasForeignKey("BorrowCartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BibliotekaMVCApp.Models.User.UserEntity", "User")
                         .WithMany()

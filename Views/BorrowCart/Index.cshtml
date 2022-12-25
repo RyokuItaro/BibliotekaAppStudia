@@ -1,0 +1,17 @@
+﻿@model BorrowCartViewModel
+
+    <thead>
+        <tr>
+            <th>Ile</th>
+            <th>Tytuł Książki</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cartItem in Model.BorrowCart.BorrowCartItems)
+        {
+            <tr>
+                <td class="text-center">@cartItem.ItemCount</td>
+                <td class="text-body">@cartItem.Book.Title</td>
+            </tr>
+        }
+    </tbody>

@@ -18,7 +18,7 @@ namespace BibliotekaMVCApp.Models.BorrowCart
     public class BorrowCart
     {
         private readonly AppDbContext appDbContext;
-        public Guid BorrowCartId { get; set; }
+        public string BorrowCartId { get; set; }
 
         public List<BorrowCartItemEntity> BorrowCartItems { get; set; }
 
@@ -33,18 +33,7 @@ namespace BibliotekaMVCApp.Models.BorrowCart
 
             var context = services.GetService<AppDbContext>();
 
-            var cartStringId = session.GetString("CartId");
-
-            Guid cartId;
-
-            if (cartStringId != null)
-            {
-                cartId = Guid.Parse(cartStringId);
-            }
-            else
-            {
-                cartId = Guid.NewGuid();
-            }
+            string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
 
             session.SetString("CartId", cartId.ToString());
 

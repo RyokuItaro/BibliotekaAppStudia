@@ -24,7 +24,6 @@ namespace BibliotekaMVCApp.Models.Db
 
         public DbSet<BookEntity> Books { get; set; }
         public DbSet<BorrowCartItemEntity> BorrowCartItems { get; set; }
-        public DbSet<BorrowCart.BorrowCart> BorrowCarts { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<FileEntity> Files { get; set; }
         public DbSet<PostEntity> Posts { get; set; }

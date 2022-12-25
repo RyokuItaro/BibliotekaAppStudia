@@ -55,7 +55,10 @@
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.BookId">Szczegóły</a>
+                <a asp-action="Details" asp-route-id="@item.BookId">Szczegóły</a> | 
+                <a asp-controller="BorrowCart"
+                   asp-action="AddToBorrowCart"
+                   asp-route-bookId="@item.BookId">Dodaj do koszyka</a>
             </td>
         </tr>
 }

@@ -25,8 +25,6 @@ namespace BibliotekaMVCApp.Models.BorrowCartItem
         public Guid BookId { get; set; }
         [ForeignKey("BookId")]
         public BookEntity Book { get; set; }
-        public Guid BorrowCartId { get; set; }
-        [ForeignKey("BorrowCartId")]
-        public BorrowCart.BorrowCart BorrowCart { get; set; }
+        public string BorrowCartId { get; set; }
     }
 }
