@@ -18,7 +18,7 @@ namespace BibliotekaMVCApp.Models.BorrowCart
     public class BorrowCart
     {
         private readonly AppDbContext appDbContext;
-        public string BorrowCartId { get; set; }
+        public Guid BorrowCartId { get; set; }
 
         public List<BorrowCartItemEntity> BorrowCartItems { get; set; }
 
@@ -33,9 +33,20 @@ namespace BibliotekaMVCApp.Models.BorrowCart
 
             var context = services.GetService<AppDbContext>();
 
-            string cartId = session.GetString("CartId") ?? Guid.NewGuid().ToString();
+            var cartStringId = session.GetString("CartId");
 
-            session.SetString("CartId", cartId);
+            Guid cartId;
+
+            if (cartStringId != null)
+            {
+                cartId = Guid.Parse(cartStringId);
+            }
+            else
+            {
+                cartId = Guid.NewGuid();
+            }
+
+            session.SetString("CartId", cartId.ToString());
 
             return new BorrowCart(context) { BorrowCartId = cartId };
         }
@@ -43,13 +54,13 @@ namespace BibliotekaMVCApp.Models.BorrowCart
         public void AddToCart(BookEntity book, int amount)
         {
             var borrowCartItem = appDbContext.BorrowCartItems
-                .SingleOrDefault(x => x.Book.BookId == book.BookId && x.BorrowCartId == Guid.Parse(BorrowCartId));
+                .SingleOrDefault(x => x.Book.BookId == book.BookId && x.BorrowCartId == BorrowCartId);
 
             if(borrowCartItem == null)
             {
                 borrowCartItem = new BorrowCartItemEntity
                 {
-                    BorrowCartId = Guid.Parse(BorrowCartId),
+                    BorrowCartId = BorrowCartId,
                     Book = book,
                     ItemCount = 1
                 };
@@ -66,7 +77,7 @@ namespace BibliotekaMVCApp.Models.BorrowCart
         public int RemoveFromCart(BookEntity book)
         {
             var borrowCartItem = appDbContext.BorrowCartItems
-                .SingleOrDefault(x => x.Book.BookId == book.BookId && x.BorrowCartId == Guid.Parse(BorrowCartId));
+                .SingleOrDefault(x => x.Book.BookId == book.BookId && x.BorrowCartId == BorrowCartId);
 
             var tmpAmount = 0;
 
@@ -92,7 +103,7 @@ namespace BibliotekaMVCApp.Models.BorrowCart
         {
             return BorrowCartItems ?? (BorrowCartItems =
                 appDbContext.BorrowCartItems
-                    .Where(x => x.BorrowCartId == Guid.Parse(BorrowCartId))
+                    .Where(x => x.BorrowCartId == BorrowCartId)
                     .Include(x => x.Book)
                     .ToList()
                 );
@@ -102,7 +113,7 @@ namespace BibliotekaMVCApp.Models.BorrowCart
         {
             var cartItems = appDbContext
                 .BorrowCartItems
-                .Where(c => c.BorrowCartId == Guid.Parse(BorrowCartId));
+                .Where(c => c.BorrowCartId == BorrowCartId);
 
             appDbContext.BorrowCartItems.RemoveRange(cartItems);
 
