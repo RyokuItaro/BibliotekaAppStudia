@@ -30,11 +30,13 @@ namespace BibliotekaMVCApp.Models.Db
         public DbSet<QueueEntity> Queues { get; set; }
         public DbSet<TagEntity> Tags { get; set; }
         public DbSet<TicketEntity> Tickets { get; set; }
+        public DbSet<Config> Config { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
+            EnsureDefaultConfigExists(builder);
             //seed tags
             builder.Entity<TagEntity>().HasData(new TagEntity
             {
@@ -125,6 +127,16 @@ namespace BibliotekaMVCApp.Models.Db
                 Title = "Lorem ipsum dolor sit amet",
                 Content = "Sed feugiat cursus volutpat. Sed et sollicitudin felis. In ut nisl eu elit maximus interdum. Fusce laoreet vitae diam sed viverra. Duis laoreet, lacus at facilisis venenatis, urna mauris egestas dolor, id consectetur ante eros id diam. Praesent varius non nibh ut egestas. Vivamus pulvinar nisi id diam aliquet lobortis. Duis ornare ligula pulvinar pharetra sollicitudin. Quisque ut sapien nec leo auctor sollicitudin. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In efficitur tortor id odio fringilla, a egestas erat ultrices. Vestibulum gravida neque congue blandit viverra. Proin eget leo lectus. Etiam sem sem, porta rutrum dolor id, rutrum semper mauris. Integer sed fringilla turpis. Duis cursus sit amet risus ac aliquet.",
                 CreatedOn = DateTime.Now
+            });
+        }
+
+        protected void EnsureDefaultConfigExists(ModelBuilder builder)
+        {
+            builder.Entity<Config>().HasData(new Config
+            {
+                ConfigId = Guid.NewGuid(),
+                Key = "maxBorrowDaysAllowed",
+                Value = "30"
             });
         }
     }

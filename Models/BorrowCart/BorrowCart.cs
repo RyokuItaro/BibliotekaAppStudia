@@ -60,6 +60,7 @@ namespace BibliotekaMVCApp.Models.BorrowCart
             {
                 borrowCartItem.ItemCount++;
             }
+
             appDbContext.SaveChanges();
         }
 
@@ -100,13 +101,7 @@ namespace BibliotekaMVCApp.Models.BorrowCart
         
         public void ClearCart()
         {
-            var cartItems = appDbContext
-                .BorrowCartItems
-                .Where(c => c.BorrowCartId == BorrowCartId);
-
-            appDbContext.BorrowCartItems.RemoveRange(cartItems);
-
-            appDbContext.SaveChanges();
+            BorrowCartItems.Clear();
         }
     }
 }

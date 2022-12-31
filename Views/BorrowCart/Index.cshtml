@@ -1,17 +1,46 @@
 ﻿@model BorrowCartViewModel
 
+<table class="table">
     <thead>
         <tr>
-            <th>Ile</th>
-            <th>Tytuł Książki</th>
+            <th>
+                <p>Tytuł</p>
+            </th>
+            <th>
+                <p>Autor</p>
+            </th>
+            <th>
+                <p>Ilość</p>
+            </th>
+            <th>
+                <p>Data zwrotu</p>
+            </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var cartItem in Model.BorrowCart.BorrowCartItems)
-        {
-            <tr>
-                <td class="text-center">@cartItem.ItemCount</td>
-                <td class="text-body">@cartItem.Book.Title</td>
-            </tr>
-        }
+@foreach (var borrowItem in Model.BorrowCart.BorrowCartItems) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => borrowItem.Book.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => borrowItem.Book.AuthorFullname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => borrowItem.ItemCount)
+            </td>
+            <td>
+                @{
+                    string stringForDisplay = borrowItem.BorrowedDate.AddDays(borrowItem.DaysToReturn).ToString();
+                }
+                @Html.DisplayFor(modelItem => stringForDisplay)
+            </td>
+            <td>
+                <a asp-action="ConfirmBorrowing">Wypożycz</a>
+            </td>
+        </tr>
+}
     </tbody>
+</table>
+
+    

@@ -46,6 +46,7 @@ namespace BibliotekaMVCApp
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IConfigRepository, ConfigRepository>();
             services.AddScoped<BorrowCart>(x => BorrowCart.GetCart(x));
             services.AddSession();
             services.AddRazorPages();
