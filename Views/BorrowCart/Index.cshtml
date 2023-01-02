@@ -1,5 +1,7 @@
 ﻿@model BorrowCartViewModel
 
+<h2>Aktualny koszyk</h2>
+
 <table class="table">
     <thead>
         <tr>
@@ -31,16 +33,14 @@
             </td>
             <td>
                 @{
-                    string stringForDisplay = borrowItem.BorrowedDate.AddDays(borrowItem.DaysToReturn).ToString();
+                    string stringForDisplay = DateTime.Now.AddDays(borrowItem.DaysToReturn).ToString("dd.MM.yyyy");
                 }
                 @Html.DisplayFor(modelItem => stringForDisplay)
             </td>
-            <td>
-                <a asp-action="ConfirmBorrowing">Wypożycz</a>
-            </td>
+            
         </tr>
 }
     </tbody>
 </table>
-
-    
+<a asp-action="ConfirmBorrowing">Wypożycz</a> | 
+<a asp-controller="Book" asp-action="Index">Powrót do listy</a>

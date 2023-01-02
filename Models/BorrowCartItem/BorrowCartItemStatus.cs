@@ -4,6 +4,8 @@
     {
         InStock,
         Waiting,
-        Borrowed
+        Borrowed,
+        NotConfirmedByUser,
+        NotConfirmedByEmployee
     }
 }

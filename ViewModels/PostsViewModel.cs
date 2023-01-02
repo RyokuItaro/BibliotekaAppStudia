@@ -1,4 +1,5 @@
-﻿using BibliotekaMVCApp.Models.Post;
+﻿using BibliotekaMVCApp.Models.Book;
+using BibliotekaMVCApp.Models.Post;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace BibliotekaMVCApp.ViewModels
 {
-    public class PostsViewModel
+    public class HomeViewModel
     {
         public List<PostEntity> Posts { get; set; }
+        public List<BookEntity> RecentlyAddedBooks { get; set; }
     }
 }

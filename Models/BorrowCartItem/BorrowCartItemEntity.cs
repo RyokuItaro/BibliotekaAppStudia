@@ -18,6 +18,7 @@ namespace BibliotekaMVCApp.Models.BorrowCartItem
         public DateTime BorrowedDate { get; set; }
         public DateTime ReturnedDate { get; set; }
         public int DaysToReturn { get; set; }
+        public int DaysOfWaiting { get; set; }
         public int ItemCount { get; set; }
         public Status Status { get; set; }
         public string UserId { get; set; }

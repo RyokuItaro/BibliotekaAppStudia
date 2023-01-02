@@ -52,5 +52,6 @@ namespace BibliotekaMVCApp.Models.Book
         [Display(Name = "Data publikacji")]
         [Required(ErrorMessage = "Należy podać datę publikacji książki")]
         public DateTime PublishDate { get; set; }
+        public DateTime CreatedOn { get; set; }
     }
 }

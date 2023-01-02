@@ -65,29 +65,23 @@ namespace BibliotekaMVCApp.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<RedirectToActionResult> ConfirmBorrowing()
+        public async Task<ActionResult> ConfirmBorrowing()
         {
             var borrowCartBooks = borrowCart.GetBorrowCartItems();
             var currUser = await userManager.GetUserAsync(User);
-            var daysToReturn = configRepository.GetConfigValueByKey("maxBorrowDaysAllowed");
 
-            if(daysToReturn == String.Empty)
-            {
-                return RedirectToAction("Index", "Home");
-            }
 
             foreach(var borrowedBook in borrowCartBooks)
             {
                 borrowedBook.User = currUser;
                 borrowedBook.BorrowedDate = DateTime.Now;
-                borrowedBook.DaysToReturn = Convert.ToInt32(daysToReturn);
-                borrowedBook.Status = Models.BorrowCartItem.Status.Waiting;
+                borrowedBook.Status = Models.BorrowCartItem.Status.NotConfirmedByEmployee;
                 _context.BorrowCartItems.Update(borrowedBook);
             }
 
             await _context.SaveChangesAsync();
             borrowCart.ClearCart();
-            return RedirectToAction("Index", "Home");
+            return View();
         }
     }
 }

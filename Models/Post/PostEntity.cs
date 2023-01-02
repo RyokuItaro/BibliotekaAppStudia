@@ -13,7 +13,11 @@ namespace BibliotekaMVCApp.Models.Post
     {
         [Key]
         public Guid PostId { get; set; }
+        [Display(Name = "Tytuł")]
+        [Required(ErrorMessage = "Należy podać tytuł posta")]
         public string Title { get; set; }
+        [Display(Name = "Treść")]
+        [Required(ErrorMessage = "Należy wprowadzić treść posta")]
         public string Content { get; set; }
         public DateTime CreatedOn { get; set; }
         public string UserId { get; set; }

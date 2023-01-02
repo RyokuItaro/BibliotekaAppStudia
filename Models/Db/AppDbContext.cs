@@ -138,6 +138,13 @@ namespace BibliotekaMVCApp.Models.Db
                 Key = "maxBorrowDaysAllowed",
                 Value = "30"
             });
+
+            builder.Entity<Config>().HasData(new Config
+            {
+                ConfigId = Guid.NewGuid(),
+                Key = "maxDaysToRetrieve",
+                Value = "3"
+            });
         }
     }
 }

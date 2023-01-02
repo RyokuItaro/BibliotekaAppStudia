@@ -45,12 +45,23 @@ namespace BibliotekaMVCApp.Models.BorrowCart
             var borrowCartItem = appDbContext.BorrowCartItems
                 .SingleOrDefault(x => x.Book.BookId == book.BookId && x.BorrowCartId == BorrowCartId);
 
-            if(borrowCartItem == null)
+            var daysToReturn = appDbContext.Config.Where(c => c.Key == "maxBorrowDaysAllowed").FirstOrDefault().Value;
+            var daysToRetrieve = appDbContext.Config.Where(c => c.Key == "maxDaysToRetrieve").FirstOrDefault().Value;
+
+            if(daysToRetrieve == String.Empty || daysToReturn == String.Empty)
+            {
+                return;
+            }
+
+            if (borrowCartItem == null)
             {
                 borrowCartItem = new BorrowCartItemEntity
                 {
                     BorrowCartId = BorrowCartId,
                     Book = book,
+                    DaysOfWaiting = Convert.ToInt32(daysToRetrieve),
+                    DaysToReturn = Convert.ToInt32(daysToReturn),
+                    Status = BorrowCartItem.Status.NotConfirmedByUser,
                     ItemCount = 1
                 };
 
