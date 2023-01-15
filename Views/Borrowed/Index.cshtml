@@ -1,0 +1,102 @@
+﻿@using BibliotekaMVCApp.Models.BorrowCartItem
+@model BorrowedBooksViewModel
+
+<div class="row w-100">
+    <h2>Książki wypożyczone</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <p>Tytuł</p>
+                    </th>
+                    <th>
+                        <p>Autor</p>
+                    </th>
+                    <th>
+                        <p>Ilość</p>
+                    </th>
+                    <th>
+                        <p>Data wypożyczenia</p>
+                    </th>
+                    <th>
+                        <p>Data zwrotu</p>
+                    </th>
+                    <th>
+                        <p>Kiedy zwrócono</p>
+                    </th>
+                    <th>
+                        <p>Status</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.BorrowedBooks) {
+                var returnToLibDate = item.BorrowedDate.AddDays(item.DaysToReturn).ToString("dd.MM.yyyy");
+                var borrowedDate = item.BorrowedDate.ToString("dd.MM.yyyy");
+                var returnedDate = item.ReturnedDate.ToString("dd.MM.yyyy");
+                <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book.AuthorFullname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemCount)
+                </td>
+                <td>
+                    @borrowedDate
+                </td>
+                <td>
+                    @returnToLibDate
+                </td>
+                <td>
+                    @if(item.ReturnedDate != DateTime.MinValue){
+                        @returnedDate
+                    }
+                    else{
+                        <span> - </span>
+                    }
+                </td>
+                <td>
+                        @if(item.Status == Status.Borrowed){
+                            <span>Wypożyczono</span>
+                        }
+                        else if(item.Status == Status.NotConfirmedByEmployee)
+                        {
+                            <span>Oczekuje na akceptacje</span>
+                        }
+                        else if(item.Status == Status.Waiting)
+                        {
+                            <span>Oczekuje na odbiór</span>
+                        }
+                        else if(item.Status == Status.Cancelled)
+                        {
+                            <span>Anulowano</span>
+                        }
+                </td>
+                <td>
+                    @if(item.Status == Status.NotConfirmedByEmployee || item.Status == Status.Waiting){
+                        <a asp-action="Cancel" asp-route-id="@item.BorrowCartItemId">Usuń</a>
+                    }
+                </td>
+            </tr>
+            }
+            </tbody>
+        </table>
+    @{
+        var prevDisabled = !Model.BorrowedBooks.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.BorrowedBooks.HasNextPage ? "disabled" : "";
+    }
+    
+    <a asp-action="Index"
+       asp-route-pageNumber="@(Model.BorrowedBooks.PageIndex - 1)"
+       class="btn btn-default @prevDisabled">
+        Poprzednia strona
+    </a>
+    <a asp-action="Index"
+       asp-route-pageNumber="@(Model.BorrowedBooks.PageIndex + 1)"
+       class="btn btn-default @nextDisabled">
+        Następna strona
+    </a>
+</div>

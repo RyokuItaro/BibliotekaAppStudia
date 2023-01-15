@@ -1,4 +1,5 @@
-﻿@model IEnumerable<BibliotekaMVCApp.Models.Book.BookEntity>
+﻿@using BibliotekaMVCApp.Helpers
+@model PaginatedList<BibliotekaMVCApp.Models.Book.BookEntity>
 
 @{
     ViewData["Title"] = "Index";
@@ -63,3 +64,17 @@
 }
     </tbody>
 </table>
+@{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+<a asp-action="ManageBooks"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       class="btn btn-default @prevDisabled">
+        Poprzednia strona
+    </a>
+    <a asp-action="ManageBooks"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       class="btn btn-default @nextDisabled">
+        Następna strona
+    </a>

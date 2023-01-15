@@ -56,6 +56,6 @@
     <form asp-action="BookDelete">
         <input type="hidden" asp-for="BookId" />
         <input type="submit" value="Usuń" class="btn btn-danger" /> |
-        <a asp-action="ManageBooks">Powrót do listy</a>
+        <a href='javascript:history.go(-1)'>Powrót do listy</a>
     </form>
 </div>

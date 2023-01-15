@@ -1,6 +1,7 @@
 ﻿using BibliotekaMVCApp.Models.Db;
 using System;
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,8 @@ namespace BibliotekaMVCApp.Models.Book
 
         public List<BookEntity> GetAllBooks()
         {
-            return appDbContext.Books.ToList();
+            var books = appDbContext.Books.Include(b => b.Category).ToList();
+            return books;
         }
     }
 }

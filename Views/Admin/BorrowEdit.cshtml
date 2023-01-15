@@ -1,0 +1,49 @@
+﻿@model BibliotekaMVCApp.Models.BorrowCartItem.BorrowCartItemEntity
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edytuj zamówienie</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="BorrowEdit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="BorrowCartItemId" />
+            <input type="hidden" asp-for="BookId" />
+            <input type="hidden" asp-for="UserId" /> 
+            <input type="hidden" asp-for="Book" />
+            <input type="hidden" asp-for="BorrowedDate" />
+            <input type="hidden" asp-for="ReturnedDate" />
+            <input type="hidden" asp-for="ItemCount" />
+            <div class="form-group">
+                <label asp-for="DaysOfWaiting" class="control-label"></label>
+                <input asp-for="DaysOfWaiting" class="form-control" />
+                <span asp-validation-for="DaysOfWaiting" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DaysToReturn" class="control-label"></label>
+                <input asp-for="DaysToReturn" class="form-control" />
+                <span asp-validation-for="DaysToReturn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<BibliotekaMVCApp.Models.BorrowCartItem.Status>()"></select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a href='javascript:history.go(-1)'>Powrót do listy</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

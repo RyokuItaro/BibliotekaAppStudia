@@ -8,6 +8,7 @@ namespace BibliotekaMVCApp.Models.BorrowCartItem
 {
     public interface IBorrowCartItemRepository
     {
-
+        public List<BorrowCartItemEntity> GetBorrowedBooks();
+        public List<BorrowCartItemEntity> GetBorrowedBooks(string userId);
     }
 }

@@ -1,6 +1,9 @@
-﻿using BibliotekaMVCApp.Models.Book;
+﻿using BibliotekaMVCApp.Helpers;
+using BibliotekaMVCApp.Models.Book;
+using BibliotekaMVCApp.Models.BorrowCartItem;
 using BibliotekaMVCApp.Models.Db;
 using BibliotekaMVCApp.Models.Post;
+using BibliotekaMVCApp.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -26,10 +29,10 @@ namespace BibliotekaMVCApp.Controllers
             return View();
         }
 
-        public async Task<IActionResult> ManageBooks()
+        public IActionResult ManageBooks(int? pageNumber)
         {
             var books = _context.Books.Include(b => b.Category);
-            return View(await books.ToListAsync());
+            return View(PaginatedList<BookEntity>.Create(books, pageNumber ?? 1, 10));
         }
 
         public async Task<IActionResult> ManagePosts()
@@ -38,9 +41,13 @@ namespace BibliotekaMVCApp.Controllers
             return View(posts);
         }
 
-        public IActionResult ManageBorrows()
+        public IActionResult ManageBorrows(int? pageNumber)
         {
-            return View();
+            var borrowedBooks = _context.BorrowCartItems.Include(b => b.User).Include(b => b.Book).OrderByDescending(b => b.BorrowedDate);
+            return View(new BorrowedBooksViewModel()
+            {
+                BorrowedBooks = PaginatedList<BorrowCartItemEntity>.Create(borrowedBooks, pageNumber ?? 1, 10)
+            });
         }
 
         public IActionResult ManageClients()
@@ -128,6 +135,7 @@ namespace BibliotekaMVCApp.Controllers
             {
                 try
                 {
+                    bookEntity.Category = _context.Categories.FirstOrDefault(c => c.CategoryId == bookEntity.CategoryId);
                     _context.Update(bookEntity);
                     await _context.SaveChangesAsync();
                 }
@@ -278,6 +286,83 @@ namespace BibliotekaMVCApp.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(ManagePosts));
         }
-        #endregion 
+        #endregion
+
+        #region Borrowed Books
+        public IActionResult BorrowEdit(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var borrowedEntity = _context.BorrowCartItems.Include(b => b.Book).FirstOrDefault(b => b.BorrowCartItemId == id);
+            if (borrowedEntity == null)
+            {
+                return NotFound();
+            }
+            return View(borrowedEntity);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BorrowEdit(Guid id, [Bind("BorrowCartItemId,DaysOfWaiting,DaysToReturn,Status,BookId,UserId,BorrowedDate,ReturnedDate,ItemCount")] BorrowCartItemEntity borrowedEntity)
+        {
+            if (id != borrowedEntity.BorrowCartItemId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.BorrowCartItems.Update(borrowedEntity);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (_context.BorrowCartItems.Any(e => e.BorrowCartItemId == borrowedEntity.BorrowCartItemId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(ManageBorrows));
+            }
+            return View(borrowedEntity);
+        }
+
+        public async Task<IActionResult> BorrowDelete(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var borrow = await _context.BorrowCartItems
+                .Include(b => b.Book)
+                .FirstOrDefaultAsync(p => p.BorrowCartItemId == id);
+            if (borrow == null)
+            {
+                return NotFound();
+            }
+
+            return View(borrow);
+        }
+
+        [HttpPost, ActionName("BorrowDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> BorrowDeleteConfirmed(Guid id)
+        {
+            var borrowed = await _context.BorrowCartItems.FindAsync(id);
+            _context.BorrowCartItems.Remove(borrowed);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(ManageBorrows));
+        }
+        #endregion
     }
 }

@@ -29,7 +29,7 @@
                 @Html.DisplayFor(modelItem => borrowItem.Book.AuthorFullname)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => borrowItem.ItemCount)
+                <input type="number" name="quantity" value="@borrowItem.ItemCount"/>
             </td>
             <td>
                 @{
@@ -43,4 +43,4 @@
     </tbody>
 </table>
 <a asp-action="ConfirmBorrowing">Wypożycz</a> | 
-<a asp-controller="Book" asp-action="Index">Powrót do listy</a>
+<a href='javascript:history.go(-1)'>Powrót do listy</a>

@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BibliotekaMVCApp.Models.BorrowCart;
+using BibliotekaMVCApp.Models.BorrowCartItem;
 
 namespace BibliotekaMVCApp
 {
@@ -43,6 +44,7 @@ namespace BibliotekaMVCApp
             ).AddEntityFrameworkStores<AppDbContext>();
 
             services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<IBorrowCartItemRepository, BorrowCartItemRepository>();
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();

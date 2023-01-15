@@ -9,44 +9,50 @@
 }
 else
 {
-    @foreach(var item in Model.RecentlyAddedBooks)
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        <p>Tytuł</p>
-                    </th>
-                    <th>
-                        <p>Autor</p>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AuthorFullname)
-                    </td>
-                    <td>
-                        <a asp-controller="Book" asp-action="Details" asp-route-id="@item.BookId">Szczegóły</a> | 
-                        @if(item.Status == (int)Status.Dostępne)
-                        {
-                            <a asp-controller="BorrowCart"
-                        asp-action="AddToBorrowCart"
-                        asp-route-bookId="@item.BookId">Dodaj do koszyka</a>
-                        }
-                        else
-                        {
-                            <p class="disabled">Dodaj do koszyka</p>
-                        }
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <table class="table">
+         <thead>
+             <tr>
+                 <th>
+                     <p>Tytuł</p>
+                 </th>
+                 <th>
+                     <p>Autor</p>
+                 </th>
+                 <th>
+                     <p>Kategoria</p>
+                 </th>
+             </tr>
+         </thead>
+         <tbody>
+             @foreach(var item in Model.RecentlyAddedBooks)
+             {
+             <tr>
+                 <td>
+                     @Html.DisplayFor(modelItem => item.Title)
+                 </td>
+                 <td>
+                     @Html.DisplayFor(modelItem => item.AuthorFullname)
+                 </td>
+                 <td>
+                     @Html.DisplayFor(modelItem => item.Category.Name)
+                 </td>
+                 <td>
+                     <a asp-controller="Book" asp-action="Details" asp-route-id="@item.BookId">Szczegóły</a> | 
+                     @if(item.Status == (int)Status.Dostępne)
+                     {
+                     <a asp-controller="BorrowCart"
+                     asp-action="AddToBorrowCart"
+                     asp-route-bookId="@item.BookId">Dodaj do koszyka</a>
+                     }
+                     else
+                     {
+                         <p class="disabled">Dodaj do koszyka</p>
+                     }
+                 </td>
+             </tr>
     }
+         </tbody>
+     </table>
 }
 
 

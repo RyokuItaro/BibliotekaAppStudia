@@ -2,7 +2,7 @@
 {
     public enum Status
     {
-        InStock,
+        Cancelled,
         Waiting,
         Borrowed,
         NotConfirmedByUser,

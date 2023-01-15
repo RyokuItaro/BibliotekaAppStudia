@@ -1,71 +1,144 @@
-﻿@using BibliotekaMVCApp.Models.Book
-@model IEnumerable<BibliotekaMVCApp.Models.Book.BookEntity>
+﻿@using BibliotekaMVCApp.Helpers
+@using BibliotekaMVCApp.Models.Book
+@model PaginatedList<BibliotekaMVCApp.Models.Book.BookEntity>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                <p>Tytuł</p>
-            </th>
-            <th>
-                <p>Autor</p>
-            </th>
-            <th>
-                <p>Kategoria</p>
-            </th>
-            <th>
-                <p>Ilość</p>
-            </th>
-            <th>
-                <p>Data publikacji</p>
-            </th>
-            <th>
-                <p>Status</p>
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AuthorFullname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BookCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PublishDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.BookId">Szczegóły</a> | 
-                @if(item.Status == (int)Status.Dostępne)
-                {
+<div class="row w-100">
+    <nav class="col-3 collapse d-lg-block sidebar collapse bg-white">
+      <div class="position-sticky">
+        <div class="list-group list-group-flush mx-3 mt-4">
+          <span>Kategorie</span>
+          <ul class="list-group list-group-flush">
+            @{
+                var allCategories = ViewData["CategoryId"] == null ? "active" : "";
+            }
+            <li class="list-group-item py-1 @allCategories">
+               <a class="text-dark" asp-action="Index"  asp-route-pageNumber="@(Model.PageIndex)">
+                   Wszystkie
+               </a>
+            </li> 
+            @foreach(var category in ViewBag.BookCategories)
+            {
+               var isCurrentCategory = ViewData["CategoryId"] != null && ViewData["CategoryId"].Equals(category.CategoryId) ? "active" : "";
+               <li class="list-group-item py-1 @isCurrentCategory">
+                  <a asp-action="Index" class="text-dark"
+                     asp-route-categoryId = "@category.CategoryId">
+                      @category.Name
+                  </a>
+               </li> 
+            }
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="col-9">
+        <div>
+            <h2>Wyszukaj książki</h2>
+            <form asp-action="Index" method="get">
+                <input type="hidden" name="categoryId" value="@ViewData["CategoryId"]" />
+                <p>
+                    ISBN: <input type="text" name="isbnFilter" value="@ViewData["ISBNFilter"]" />
+                </p>
+                <p>
+                    Tytuł: <input type="text" name="titleFilter" value="@ViewData["TitleFilter"]" />
+                </p>
+                <p>
+                    Imię i/lub nazwisko autora: <input type="text" name="authorFilter" value="@ViewData["AuthorFilter"]" />
+                </p>
+                <p>
+                    <input type="submit" value="Filtruj"/>
+                    |
+                    <a asp-action="Index">Zresetuj filtry</a>
+                </p>
+            </form>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <p>Tytuł</p>
+                    </th>
+                    <th>
+                        <p>Autor</p>
+                    </th>
+                    <th>
+                        <p>Kategoria</p>
+                    </th>
+                    <th>
+                        <p>Ilość</p>
+                    </th>
+                    <th>
+                        <p>Data publikacji</p>
+                    </th>
+                    <th>
+                        <p>Status</p>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AuthorFullname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PublishDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.BookId">Szczegóły</a> | 
+                    @if(item.Status == (int)Status.Dostępne)
+                    {
                     <a asp-controller="BorrowCart"
-                asp-action="AddToBorrowCart"
-                asp-route-bookId="@item.BookId">Dodaj do koszyka</a>
-                }
-                else
-                {
-                    <p class="disabled">Dodaj do koszyka</p>
-                }
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                    asp-action="AddToBorrowCart"
+                    asp-route-bookId="@item.BookId">Dodaj do koszyka</a>
+                    }
+                    else
+                    {
+                        <p class="disabled">Dodaj do koszyka</p>
+                    }
+                </td>
+            </tr>
+            }
+            </tbody>
+        </table>
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+    
+    <a asp-action="Index"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       asp-route-categoryId="@ViewData["CategoryId"]"
+       asp-route-isbnFilter="@ViewData["ISBNFilter"]"
+       asp-route-titleFilter="@ViewData["TitleFilter"]"
+       asp-route-authorFilter="@ViewData["AuthorFilter"]"
+       class="btn btn-default @prevDisabled">
+        Poprzednia strona
+    </a>
+    <a asp-action="Index"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       asp-route-categoryId="@ViewData["CategoryId"]"
+       asp-route-isbnFilter="@ViewData["ISBNFilter"]"
+       asp-route-titleFilter="@ViewData["TitleFilter"]"
+       asp-route-authorFilter="@ViewData["AuthorFilter"]"
+       class="btn btn-default @nextDisabled">
+        Następna strona
+    </a>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+﻿@model BibliotekaMVCApp.Models.BorrowCartItem.BorrowCartItemEntity
+
+@{
+    ViewData["Title"] = "Cancel";
+}
+
+@{
+    var returnToLibDate = Model.BorrowedDate.AddDays(Model.DaysToReturn).ToString("dd.MM.yyyy");
+    var borrowedDate = Model.BorrowedDate.ToString("dd.MM.yyyy");
+    var returnedDate = Model.ReturnedDate.ToString("dd.MM.yyyy");
+}
+<h1>Anuluj wypożyczenie</h1>
+
+<h3>Czy napewno chcesz anulować wypożyczenie książki?</h3>
+<div>
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Book.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Book.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Book.AuthorFullname)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Book.AuthorFullname)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ItemCount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ItemCount)
+        </dd>
+    </dl>
+    
+    <form asp-action="Cancel">
+        <input type="hidden" asp-for="BorrowCartItemId" />
+        <input type="submit" value="Usuń" class="btn btn-danger" /> |
+        <a asp-action="Index">Powrót do listy</a>
+    </form>
+</div>

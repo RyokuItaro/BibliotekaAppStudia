@@ -1,0 +1,36 @@
+﻿@model BibliotekaMVCApp.Models.BorrowCartItem.BorrowCartItemEntity
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Usuń</h1>
+
+<div>
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Book.Title)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Book.Title)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Book.AuthorFullname)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Book.AuthorFullname)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ItemCount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ItemCount)
+        </dd>
+    </dl>
+    
+    <form asp-action="BorrowDelete">
+        <input type="hidden" asp-for="BorrowCartItemId" />
+        <input type="submit" value="Usuń" class="btn btn-danger" /> |
+        <a href='javascript:history.go(-1)'>Powrót do listy</a>
+    </form>
+</div>
