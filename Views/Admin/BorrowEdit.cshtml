@@ -19,12 +19,12 @@
             <input type="hidden" asp-for="ReturnedDate" />
             <input type="hidden" asp-for="ItemCount" />
             <div class="form-group">
-                <label asp-for="DaysOfWaiting" class="control-label"></label>
+                <label class="control-label">Dni oczekiwania na odbiór</label>
                 <input asp-for="DaysOfWaiting" class="form-control" />
                 <span asp-validation-for="DaysOfWaiting" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DaysToReturn" class="control-label"></label>
+                <label class="control-label">Dni do zwrotu książki</label>
                 <input asp-for="DaysToReturn" class="form-control" />
                 <span asp-validation-for="DaysToReturn" class="text-danger"></span>
             </div>
