@@ -80,6 +80,10 @@
                         {
                             <span>Anulowano</span>
                         }
+                        else if(item.Status == Status.Returned)
+                        {
+                            <span>Zwrócono</span>
+                        }
                     </td>
                 <td>
                     <a asp-action="BorrowEdit" asp-route-id="@item.BorrowCartItemId">Edytuj</a> |

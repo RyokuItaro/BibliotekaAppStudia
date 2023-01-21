@@ -2,6 +2,7 @@
 {
     public enum Status
     {
+        Returned,
         Cancelled,
         Waiting,
         Borrowed,

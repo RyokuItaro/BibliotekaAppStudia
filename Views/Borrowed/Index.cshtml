@@ -74,10 +74,14 @@
                         {
                             <span>Anulowano</span>
                         }
+                        else if(item.Status == Status.Returned)
+                        {
+                            <span>Zwrócono</span>
+                        }
                 </td>
                 <td>
                     @if(item.Status == Status.NotConfirmedByEmployee || item.Status == Status.Waiting){
-                        <a asp-action="Cancel" asp-route-id="@item.BorrowCartItemId">Usuń</a>
+                        <a asp-action="Cancel" asp-route-id="@item.BorrowCartItemId">Anuluj</a>
                     }
                 </td>
             </tr>

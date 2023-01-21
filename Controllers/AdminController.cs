@@ -18,10 +18,12 @@ namespace BibliotekaMVCApp.Controllers
     public class AdminController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IBookRepository bookRepository;
 
-        public AdminController(AppDbContext context)
+        public AdminController(AppDbContext context, IBookRepository bookRepository)
         {
             _context = context;
+            this.bookRepository = bookRepository;
         }
 
         public IActionResult Index()
@@ -317,6 +319,10 @@ namespace BibliotekaMVCApp.Controllers
             {
                 try
                 {
+                    if(borrowedEntity.Status == Models.BorrowCartItem.Status.Returned)
+                    {
+                        var book = bookRepository.AddBookAmount(borrowedEntity.BookId, borrowedEntity.ItemCount);
+                    }
                     _context.BorrowCartItems.Update(borrowedEntity);
                     await _context.SaveChangesAsync();
                 }

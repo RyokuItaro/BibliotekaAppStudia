@@ -102,7 +102,7 @@
                 </td>
                 <td>
                     <a asp-action="Details" asp-route-id="@item.BookId">Szczegóły</a> | 
-                    @if(item.Status == (int)Status.Dostępne)
+                    @if(item.Status == (int)Status.Dostępne && item.BookCount > 0)
                     {
                     <a asp-controller="BorrowCart"
                     asp-action="AddToBorrowCart"
@@ -110,7 +110,7 @@
                     }
                     else
                     {
-                        <p class="disabled">Dodaj do koszyka</p>
+                        <a class="disabled m-0 p-0">Brak książek w magazynie</a>
                     }
                 </td>
             </tr>

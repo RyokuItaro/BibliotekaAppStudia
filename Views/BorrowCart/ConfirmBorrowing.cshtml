@@ -1,3 +1,11 @@
-﻿<h2>Książki dodano do twojego profilu - oczekują na zatwierdzenie przez pracownika biblioteki</h2>
+﻿
+@if(ViewBag.Err != null && ViewBag.Err != string.Empty)
+{
+    <h2 class="text-danger">@ViewBag.Err</h2>
+}
+else
+{
+    <h2>Książki dodano do twojego profilu - oczekują na zatwierdzenie przez pracownika biblioteki</h2>    
+}
 <a asp-controller="Book" asp-action="Index">Powrót do listy książek</a> | 
 <a asp-controller="Borrowed" asp-action="Index">Przejdź do listy wypożyczonych książek</a>

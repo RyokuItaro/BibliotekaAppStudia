@@ -70,12 +70,18 @@ namespace BibliotekaMVCApp.Controllers
             var borrowCartBooks = borrowCart.GetBorrowCartItems();
             var currUser = await userManager.GetUserAsync(User);
 
-
             foreach(var borrowedBook in borrowCartBooks)
             {
                 borrowedBook.User = currUser;
                 borrowedBook.BorrowedDate = DateTime.Now;
                 borrowedBook.Status = Models.BorrowCartItem.Status.NotConfirmedByEmployee;
+                var book = bookRepository.RemoveBookAmount(borrowedBook.BookId, borrowedBook.ItemCount);
+                if(book == null)
+                {
+                    ViewBag.Err = "Brak książek w magazynie";
+                    borrowCart.ClearCart();
+                    return View();
+                }
                 _context.BorrowCartItems.Update(borrowedBook);
             }
 

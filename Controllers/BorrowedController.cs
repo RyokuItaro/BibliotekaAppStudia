@@ -1,4 +1,5 @@
 ﻿using BibliotekaMVCApp.Helpers;
+using BibliotekaMVCApp.Models.Book;
 using BibliotekaMVCApp.Models.BorrowCartItem;
 using BibliotekaMVCApp.Models.Db;
 using BibliotekaMVCApp.Models.User;
@@ -20,12 +21,14 @@ namespace BibliotekaMVCApp.Controllers
         private readonly AppDbContext _context;
         private readonly IBorrowCartItemRepository borrowCartItemRepository;
         private readonly UserManager<UserEntity> _userManager;
+        private readonly IBookRepository bookRepository;
 
-        public BorrowedController(AppDbContext context, IBorrowCartItemRepository borrowCartItemRepository, UserManager<UserEntity> userManager)
+        public BorrowedController(AppDbContext context, IBorrowCartItemRepository borrowCartItemRepository, UserManager<UserEntity> userManager, IBookRepository bookRepository)
         {
             _context = context;
             this.borrowCartItemRepository = borrowCartItemRepository;
             _userManager = userManager;
+            this.bookRepository = bookRepository;
         }
 
         public async Task<IActionResult> Index(int? pageNumber)
@@ -68,6 +71,7 @@ namespace BibliotekaMVCApp.Controllers
         {
             var borrow = await _context.BorrowCartItems.FindAsync(id);
             borrow.Status = Models.BorrowCartItem.Status.Cancelled;
+            bookRepository.AddBookAmount(borrow.BookId, borrow.ItemCount);
             _context.BorrowCartItems.Update(borrow);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
