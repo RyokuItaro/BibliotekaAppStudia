@@ -3,8 +3,10 @@ using BibliotekaMVCApp.Models.Book;
 using BibliotekaMVCApp.Models.BorrowCartItem;
 using BibliotekaMVCApp.Models.Db;
 using BibliotekaMVCApp.Models.Post;
+using BibliotekaMVCApp.Models.User;
 using BibliotekaMVCApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,32 +23,54 @@ namespace BibliotekaMVCApp.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IBookRepository bookRepository;
+        private readonly UserManager<UserEntity> userManager;
 
-        public AdminController(AppDbContext context, IBookRepository bookRepository)
+        public AdminController(AppDbContext context, IBookRepository bookRepository, UserManager<UserEntity> userManager)
         {
             _context = context;
             this.bookRepository = bookRepository;
+            this.userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if(currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             return View();
         }
 
-        public IActionResult ManageBooks(int? pageNumber)
+        public async Task<IActionResult> ManageBooks(int? pageNumber)
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             var books = _context.Books.Include(b => b.Category);
             return View(PaginatedList<BookEntity>.Create(books, pageNumber ?? 1, 10));
         }
 
         public async Task<IActionResult> ManagePosts()
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             var posts = await _context.Posts.ToListAsync();
             return View(posts);
         }
 
-        public IActionResult ManageBorrows(int? pageNumber)
+        public async Task<IActionResult> ManageBorrows(int? pageNumber)
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             var borrowedBooks = _context.BorrowCartItems.Include(b => b.User).Include(b => b.Book).OrderByDescending(b => b.BorrowedDate);
             return View(new BorrowedBooksViewModel()
             {
@@ -54,24 +78,14 @@ namespace BibliotekaMVCApp.Controllers
             });
         }
 
-        public IActionResult ManageClients()
-        {
-            return View();
-        }
-
-        public IActionResult ManageEmployees()
-        {
-            return View();
-        }
-
-        public IActionResult ManageRules()
-        {
-            return View();
-        }
-
         #region Books
         public async Task<IActionResult> BookDetails(Guid? id)
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             if (id == null)
             {
                 return NotFound();
@@ -88,8 +102,13 @@ namespace BibliotekaMVCApp.Controllers
             return View(bookEntity);
         }
 
-        public IActionResult BookCreate()
+        public async Task<IActionResult> BookCreate()
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             ViewBag.Categories = new SelectList(_context.Categories, "CategoryId", "Name");
             return View();
         }
@@ -98,6 +117,11 @@ namespace BibliotekaMVCApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> BookCreate([Bind("BookId,PublishDate,Isbn,Title,BookCount,Status,PageCount,AuthorFullname,CategoryId,QueueId")] BookEntity bookEntity)
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             if (ModelState.IsValid)
             {
                 bookEntity.BookId = Guid.NewGuid();
@@ -112,6 +136,11 @@ namespace BibliotekaMVCApp.Controllers
 
         public async Task<IActionResult> BookEdit(Guid? id)
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             if (id == null)
             {
                 return NotFound();
@@ -130,6 +159,11 @@ namespace BibliotekaMVCApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> BookEdit(Guid id, [Bind("BookId,Isbn,Title,BookCount,Status,PageCount,AuthorFullname,CategoryId,QueueId")] BookEntity bookEntity)
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             if (id != bookEntity.BookId)
             {
                 return NotFound();
@@ -162,6 +196,11 @@ namespace BibliotekaMVCApp.Controllers
 
         public async Task<IActionResult> BookDelete(Guid? id)
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             if (id == null)
             {
                 return NotFound();
@@ -182,6 +221,11 @@ namespace BibliotekaMVCApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> BookDeleteConfirmed(Guid id)
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             var bookEntity = await _context.Books.FindAsync(id);
             _context.Books.Remove(bookEntity);
             await _context.SaveChangesAsync();
@@ -195,8 +239,13 @@ namespace BibliotekaMVCApp.Controllers
         #endregion
 
         #region Posts
-        public IActionResult PostCreate()
+        public async Task<IActionResult> PostCreate()
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             return View();
         }
 
@@ -204,6 +253,11 @@ namespace BibliotekaMVCApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PostCreate([Bind("PostId, Title, Content, CreatedOn, UserId")] PostEntity postEntity)
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             if (ModelState.IsValid)
             {
                 postEntity.PostId = Guid.NewGuid();
@@ -217,6 +271,11 @@ namespace BibliotekaMVCApp.Controllers
         }
         public async Task<IActionResult> PostEdit(Guid? id)
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             if (id == null)
             {
                 return NotFound();
@@ -235,6 +294,11 @@ namespace BibliotekaMVCApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PostEdit(Guid id, [Bind("PostId, Title, Content, CreatedOn, UserId")] PostEntity postEntity)
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             if (id != postEntity.PostId)
             {
                 return NotFound();
@@ -266,6 +330,11 @@ namespace BibliotekaMVCApp.Controllers
 
         public async Task<IActionResult> PostDelete(Guid? id)
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             if (id == null)
             {
                 return NotFound();
@@ -285,6 +354,11 @@ namespace BibliotekaMVCApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PostDeleteConfirmed(Guid id)
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             var post = await _context.Posts.FindAsync(id);
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
@@ -293,8 +367,13 @@ namespace BibliotekaMVCApp.Controllers
         #endregion
 
         #region Borrowed Books
-        public IActionResult BorrowEdit(Guid? id)
+        public async Task<IActionResult> BorrowEdit(Guid? id)
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             if (id == null)
             {
                 return NotFound();
@@ -312,6 +391,11 @@ namespace BibliotekaMVCApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> BorrowEdit(Guid id, [Bind("BorrowCartItemId,DaysOfWaiting,DaysToReturn,Status,BookId,UserId,BorrowedDate,ReturnedDate,ItemCount")] BorrowCartItemEntity borrowedEntity)
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             if (id != borrowedEntity.BorrowCartItemId)
             {
                 return NotFound();
@@ -346,6 +430,11 @@ namespace BibliotekaMVCApp.Controllers
 
         public async Task<IActionResult> BorrowDelete(Guid? id)
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             if (id == null)
             {
                 return NotFound();
@@ -366,6 +455,11 @@ namespace BibliotekaMVCApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> BorrowDeleteConfirmed(Guid id)
         {
+            var currUser = await userManager.GetUserAsync(User);
+            if (currUser.Role != Role.Admin)
+            {
+                return Forbid();
+            }
             var borrowed = await _context.BorrowCartItems.FindAsync(id);
             _context.BorrowCartItems.Remove(borrowed);
             await _context.SaveChangesAsync();
