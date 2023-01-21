@@ -1,17 +1,15 @@
 ﻿@{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Panel administratora";
 }
-<ul>
+<h2>Panel administratora</h2>
+<ul class="list-unstyled">
     <li>
-        <a class="nav-link" asp-controller="Admin" asp-action="ManageBooks">Zarządzaj książkami</a>
+        <a class="btn btn-primary my-2" asp-controller="Admin" asp-action="ManageBooks">Zarządzaj książkami</a>
     </li>
     <li>
-        <a class="nav-link" asp-controller="Admin" asp-action="ManagePosts">Zarządzaj postami</a>
+        <a class="btn btn-primary my-2" asp-controller="Admin" asp-action="ManagePosts">Zarządzaj postami</a>
     </li>
     <li>
-        <a class="nav-link" asp-controller="Admin" asp-action="ManageBorrows">Zarządzaj wypożyczeniami</a>
+        <a class="btn btn-primary my-2" asp-controller="Admin" asp-action="ManageBorrows">Zarządzaj wypożyczeniami</a>
     </li>
-    <li>Zarządzaj czytelnikami</li>
-    <li>Zarządzaj pracownikami</li>
-    <li>Zarządzaj zasdami wypożyczeń</li>
 </ul>

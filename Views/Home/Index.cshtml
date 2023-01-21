@@ -38,7 +38,7 @@ else
                  </td>
                  <td>
                      <a asp-controller="Book" asp-action="Details" asp-route-id="@item.BookId">Szczegóły</a> | 
-                     @if(item.Status == (int)Status.Dostępne)
+                     @if(item.Status == (int)Status.Dostępne && item.BookCount > 0)
                      {
                      <a asp-controller="BorrowCart"
                      asp-action="AddToBorrowCart"

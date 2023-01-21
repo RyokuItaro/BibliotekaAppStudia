@@ -2,13 +2,10 @@
 @model PaginatedList<BibliotekaMVCApp.Models.Book.BookEntity>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Zarządaj książkami";
 }
-
-<h1>Index</h1>
-
 <p>
-    <a asp-action="BookCreate">Create New</a>
+    <a asp-action="BookCreate" class="btn btn-primary">Dodaj książkę</a>
 </p>
 <table class="table">
     <thead>

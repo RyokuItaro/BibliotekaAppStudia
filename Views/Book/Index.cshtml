@@ -3,7 +3,7 @@
 @model PaginatedList<BibliotekaMVCApp.Models.Book.BookEntity>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Książki";
 }
 
 <div class="row w-100">
@@ -49,9 +49,9 @@
                     Imię i/lub nazwisko autora: <input type="text" name="authorFilter" value="@ViewData["AuthorFilter"]" />
                 </p>
                 <p>
-                    <input type="submit" value="Filtruj"/>
+                    <input class="btn btn-primary" type="submit" value="Filtruj"/>
                     |
-                    <a asp-action="Index">Zresetuj filtry</a>
+                    <a class="btn btn-primary" asp-action="Index">Zresetuj filtry</a>
                 </p>
             </form>
         </div>

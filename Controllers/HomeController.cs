@@ -18,12 +18,10 @@ namespace BibliotekaMVCApp.Controllers
     {
         private readonly IPostRepository postRepository;
         private readonly IBookRepository bookRepository;
-        private readonly UserManager<UserEntity> userManager;
 
         public HomeController(IPostRepository postRepository, UserManager<UserEntity> userManager, IBookRepository bookRepository)
         {
             this.postRepository = postRepository;
-            this.userManager = userManager;
             this.bookRepository = bookRepository;
         }
 

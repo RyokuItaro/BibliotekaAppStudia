@@ -4,6 +4,7 @@ using BibliotekaMVCApp.Models.BorrowCartItem;
 using BibliotekaMVCApp.Models.Db;
 using BibliotekaMVCApp.Models.Post;
 using BibliotekaMVCApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ using System.Threading.Tasks;
 
 namespace BibliotekaMVCApp.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private readonly AppDbContext _context;

@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<BibliotekaMVCApp.Models.Post.PostEntity>
 
-<a asp-action="PostCreate">Dodaj nowy post</a>
+<a asp-action="PostCreate" class="btn btn-primary m-2">Dodaj nowy post</a>
 
 @foreach(var item in Model.OrderByDescending(p => p.CreatedOn))
 {
-    <div class="card margin my-4">
+    <div class="card my-4 w-75">
         <div class="card-header">
             <div class="d-flex flex-row">
                 <p class="flex-grow-1">@item.Title</p>

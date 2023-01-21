@@ -3,6 +3,7 @@ using BibliotekaMVCApp.Models.BorrowCart;
 using BibliotekaMVCApp.Models.Db;
 using BibliotekaMVCApp.Models.User;
 using BibliotekaMVCApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace BibliotekaMVCApp.Controllers
 {
+    [Authorize]
     public class BorrowCartController : Controller
     {
         private readonly IBookRepository bookRepository;

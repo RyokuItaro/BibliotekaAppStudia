@@ -46,20 +46,20 @@ namespace BibliotekaMVCApp.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required (ErrorMessage = "Nie podano adresu email")]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required (ErrorMessage = "Nie podano hasła")]
+            [StringLength(100, ErrorMessage = "Hasło musi zawierać minumim 6 znaków", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = "Podane hasła się nie zgadzają")]
             public string ConfirmPassword { get; set; }
         }
 

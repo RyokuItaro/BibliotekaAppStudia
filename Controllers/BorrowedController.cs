@@ -4,6 +4,7 @@ using BibliotekaMVCApp.Models.BorrowCartItem;
 using BibliotekaMVCApp.Models.Db;
 using BibliotekaMVCApp.Models.User;
 using BibliotekaMVCApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ using System.Threading.Tasks;
 
 namespace BibliotekaMVCApp.Controllers
 {
+    [Authorize]
     public class BorrowedController : Controller
     {
         private readonly AppDbContext _context;
