@@ -2,19 +2,13 @@ using BibliotekaMVCApp.Models.Book;
 using BibliotekaMVCApp.Models.Db;
 using BibliotekaMVCApp.Models.Post;
 using BibliotekaMVCApp.Models.User;
-using BibliotekaMVCApp.Models.Tag;
 using BibliotekaMVCApp.Models.Category;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BibliotekaMVCApp.Models.BorrowCart;
 using BibliotekaMVCApp.Models.BorrowCartItem;
 
@@ -46,7 +40,6 @@ namespace BibliotekaMVCApp
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IBorrowCartItemRepository, BorrowCartItemRepository>();
             services.AddScoped<IBookRepository, BookRepository>();
-            services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IConfigRepository, ConfigRepository>();
             services.AddScoped<BorrowCart>(x => BorrowCart.GetCart(x));
@@ -58,12 +51,6 @@ namespace BibliotekaMVCApp
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            //{
-            //    var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
-            //    context.Database.EnsureCreated();
-            //}
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

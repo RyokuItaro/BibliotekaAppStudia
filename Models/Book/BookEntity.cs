@@ -1,14 +1,8 @@
 ﻿using BibliotekaMVCApp.Models.Category;
-using BibliotekaMVCApp.Models.File;
-using BibliotekaMVCApp.Models.Queue;
-using BibliotekaMVCApp.Models.Tag;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BibliotekaMVCApp.Models.Book
 {
@@ -44,10 +38,7 @@ namespace BibliotekaMVCApp.Models.Book
         [ForeignKey("CategoryId")]
         [Display(Name = "Kategoria")]
         public CategoryEntity Category { get; set; }
-        public List<TagEntity> Tags { get; set; }
-        public List<FileEntity> Files { get; set; }
         public Guid QueueId { get; set; }
-        public QueueEntity Queue { get; set; }
         [DataType(DataType.Date)]
         [Display(Name = "Data publikacji")]
         [Required(ErrorMessage = "Należy podać datę publikacji książki")]
